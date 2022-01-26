@@ -45,5 +45,5 @@ CTestTestfile.cmake
 _deps
 *.save
 
-# bin dir
+# bin directory
 [Bb][Ii][Nn]
