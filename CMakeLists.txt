@@ -15,25 +15,31 @@ set(SRCDIR
 
 set(HEADERDIR 
  #[[0]] "/home/harvinder/CMakeTutorial/Include"
- #[[1]] "${PROJECT_SOURCE_DIR}/submodule/services" 
+        CACHE PATH "Location of current projet's header files" 
+        FORCE
+)
+
+set(SUBMODULESDIR 
+ #[[0]] ${PROJECT_SOURCE_DIR}/submodules
         CACHE PATH "Location of current projet's header files" 
         FORCE
 )
 
 list(GET HEADERDIR 0 HEADERDIR0)
-list(GET HEADERDIR 1 HEADERDIR1)
 message(STATUS  "Src dircetory: ${SRCDIR}")
 message(STATUS  "Include dircetory: ${HEADERDIR}")
+message(STATUS  "Submodules directory: ${SUBMODULESDIR}")
 
 # include dir
 include_directories(${HEADERDIR})
+include_directories(${SUBMODULESDIR}/services)
 
 # build libs
 add_library(foo ${SRCDIR}/foo.cpp)
 add_library(dbgUtils ${SRCDIR}/dbgUtils.cpp)
 
 # submodules
-add_subdirectory(${PROJECT_SOURCE_DIR}/submodule)
+add_subdirectory(${SUBMODULESDIR})
 
 # build app
 add_executable(app ${SRCDIR}/main.cpp)
@@ -44,18 +50,10 @@ target_precompile_headers(dbgUtils PUBLIC ${HEADERDIR0}/pch.h)
 target_precompile_headers(app PUBLIC ${HEADERDIR0}/pch.h)
 
 target_compile_definitions(
-    services
-    PRIVATE
-    RAW_INTERFACE_SERVICES
-)
-
-target_compile_definitions(
     app
     PRIVATE
     RAW_INTERFACE_SERVICES
 )
-
-# linking directories
 
 # link
 target_link_libraries(app foo dbgUtils services)
