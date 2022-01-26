@@ -5,3 +5,5 @@ target_compile_definitions(
     PRIVATE
     RAW_INTERFACE_SERVICES
 )
+
+add_subdirectory(${SUBMODULESDIR}/ext/glfw)

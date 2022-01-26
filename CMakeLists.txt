@@ -8,13 +8,13 @@ message(STATUS "CMake bin dir: ${CMAKE_BINARY_DIR}")
 message(STATUS "Project ver: ${PROJECT_VERSION}")
 
 set(SRCDIR
-    "/home/harvinder/CMakeTutorial/Src/" 
+    ${PROJECT_SOURCE_DIR}/Src
     CACHE PATH "Location of current project source files"
     FORCE
 )
 
 set(HEADERDIR 
- #[[0]] "/home/harvinder/CMakeTutorial/Include"
+ #[[0]] ${PROJECT_SOURCE_DIR}/Include
         CACHE PATH "Location of current projet's header files" 
         FORCE
 )
@@ -33,6 +33,8 @@ message(STATUS  "Submodules directory: ${SUBMODULESDIR}")
 # include dir
 include_directories(${HEADERDIR})
 include_directories(${SUBMODULESDIR}/services)
+include_directories(${SUBMODULESDIR}/ext/glfw/include)
+include_directories(${SUBMODULESDIR}/ext/glfw/deps)
 
 # build libs
 add_library(foo ${SRCDIR}/foo.cpp)
@@ -56,4 +58,4 @@ target_compile_definitions(
 )
 
 # link
-target_link_libraries(app foo dbgUtils services)
+target_link_libraries(app foo dbgUtils services glfw)
