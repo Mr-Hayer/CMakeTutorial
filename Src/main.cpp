@@ -7,8 +7,13 @@
 #include "services_interfaces.h"
 #include <glfw/glfw3.h>
 
-int main()
+// Versioning header
+#include "CMakeTutorialVersioning.h"
+
+int main(int argc, char* argv[])
 {
+    std::cout<<argv[0]<<" version: "<<CMAKETUTORIAL_VERSION_MAJOR<<'.'<<CMAKETUTORIAL_VERSION_MINOR<<'\n';
+
 	std::cout<<"Hello world!\n";
 	std::cout<<"Calling func1 from foo.h: "<<func1()<<'\n';
 	func2();

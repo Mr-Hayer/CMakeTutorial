@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0...3.18)
 
-project(hello_world VERSION 1.0.0)
+# project
+project(CMakeTutorial VERSION 1.0.0)
 
 message(STATUS "Project name: ${PROJECT_NAME}")
 message(STATUS "Project source dir: ${PROJECT_SOURCE_DIR}")
@@ -44,18 +45,22 @@ add_library(dbgUtils ${SRCDIR}/dbgUtils.cpp)
 add_subdirectory(${SUBMODULESDIR})
 
 # build app
-add_executable(app ${SRCDIR}/main.cpp)
+add_executable(${PROJECT_NAME} ${SRCDIR}/main.cpp)
 
 # add precompiled headers
 target_precompile_headers(foo PUBLIC ${HEADERDIR0}/pch.h)
 target_precompile_headers(dbgUtils PUBLIC ${HEADERDIR0}/pch.h)
-target_precompile_headers(app PUBLIC ${HEADERDIR0}/pch.h)
+target_precompile_headers(${PROJECT_NAME} PUBLIC ${HEADERDIR0}/pch.h)
 
 target_compile_definitions(
-    app
+    ${PROJECT_NAME}
     PRIVATE
     RAW_INTERFACE_SERVICES
 )
 
+# Versioning
+configure_file(CMakeTutorialVersioning.h.in CMakeTutorialVersioning.h)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+
 # link
-target_link_libraries(app foo dbgUtils services glfw)
+target_link_libraries(${PROJECT_NAME} foo dbgUtils services glfw)
