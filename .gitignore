@@ -46,4 +46,6 @@ _deps
 *.save
 
 # bin directory
+[Bb][Ii][Nn]32
+[Bb][Ii][Nn]64
 [Bb][Ii][Nn]

@@ -8,13 +8,26 @@
 template<size_t MaxSize=255, typename ... Args>
 std::string formatMsg(const char* fmt, Args&&... args)
 {
-    char *Buffer = new char[MaxSize]();
-    assert(Buffer);
+    const char* Itr = fmt;
+    
+    size_t size = 0;
+    while(*Itr != '\0')
+    { 
+        size++;
+        Itr++;
+    }
 
-    std::sprintf(Buffer,fmt,args...);
-    std::string retval(Buffer);
-    delete[] Buffer;
-    return retval;
+    if (size <=MaxSize){
+        char *Buffer = new char[MaxSize]();
+        assert(Buffer);
+
+        std::sprintf(Buffer,fmt,args...);
+        std::string retval(Buffer);
+        delete[] Buffer;
+        return retval;
+    }
+
+    return "Error invalid message length";
 }
 
 void printMsg(const char* message);

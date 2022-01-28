@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0...3.18)
+cmake_minimum_required(VERSION 3.10...3.18)
 
 # project
 project(CMakeTutorial VERSION 1.0.0)
@@ -48,19 +48,46 @@ add_subdirectory(${SUBMODULESDIR})
 add_executable(${PROJECT_NAME} ${SRCDIR}/main.cpp)
 
 # add precompiled headers
-target_precompile_headers(foo PUBLIC ${HEADERDIR0}/pch.h)
-target_precompile_headers(dbgUtils PUBLIC ${HEADERDIR0}/pch.h)
-target_precompile_headers(${PROJECT_NAME} PUBLIC ${HEADERDIR0}/pch.h)
+target_precompile_headers(
+    foo
+    PUBLIC ${HEADERDIR0}/pch.h
+)
+target_precompile_headers(
+    dbgUtils
+    PUBLIC ${HEADERDIR0}/pch.h
+)
+target_precompile_headers(
+    ${PROJECT_NAME} 
+    PUBLIC ${HEADERDIR0}/pch.h
+)
 
+# activate any preprocessor on target
 target_compile_definitions(
     ${PROJECT_NAME}
-    PRIVATE
-    RAW_INTERFACE_SERVICES
+    PRIVATE RAW_INTERFACE_SERVICES
+)
+
+# add compiler flags on target
+set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
 )
 
 # Versioning
 configure_file(CMakeTutorialVersioning.h.in CMakeTutorialVersioning.h)
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC ${PROJECT_BINARY_DIR}
+)
 
 # link
-target_link_libraries(${PROJECT_NAME} foo dbgUtils services glfw)
+target_link_libraries(
+    ${PROJECT_NAME}
+    foo
+    dbgUtils
+    services
+    glfw
+)
